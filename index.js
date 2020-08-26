@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieSeassion = require('cookie-session')
+const passport = require('passport')
 const keys = require('./config/keys');
 require('./models/User'); // must define the User model before using it in passport. order of require statements matter
 require('./services/passport');
@@ -7,6 +9,15 @@ require('./services/passport');
 mongoose.connect(keys.mongoURI);
 
 const app = express();
+
+app.use(
+  cookieSeassion({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys:  [keys.cookieKey] // make sure it as an error so that we can provide multiple keys for additional security
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 require('./routes/authRoutes') (app);
 
