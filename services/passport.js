@@ -22,6 +22,7 @@ passport.use( // passport.use makes aware that there is a new strategy available
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
         callbackURL: '/auth/google/callback', // route user is sent to after they grant auth
+        proxy: true
       }, 
       (accessToken, refreshToken, profile, done) => {
         console.log('profile', profile);
